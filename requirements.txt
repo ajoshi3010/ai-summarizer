@@ -13,4 +13,4 @@ langchainhub
 pypdf
 rapidocr-onnxruntime
 PyPDF2
-pysqlite3-binary  # Fixes SQLite version issue for Chroma
+pysqlite3-binary  # Ensures SQLite 3.35+
