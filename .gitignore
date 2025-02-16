@@ -1,2 +1,47 @@
 /.env
 / chroma_db
+# Python virtual environment
+venv/
+.env
+.env.local
+*.venv
+*.env
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Streamlit cache & logs
+.streamlit/
+logs/
+.db/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Ignore package dependencies
+*.log
+*.sqlite3
+Pipfile
+Pipfile.lock
+
+# Ignore large dataset files (if any)
+*.csv
+*.tsv
+*.json
+*.xlsx
+
+# Ignore compiled files
+*.so
+*.dll
+*.dylib
+*.exe
