@@ -1,0 +1,15 @@
+streamlit
+python-dotenv
+google-generativeai
+youtube-transcript-api
+langchain
+langchain_community
+langchain-google-genai
+langchain-experimental
+sentence-transformers
+faiss-cpu
+langchain-chroma
+langchainhub
+pypdf
+rapidocr-onnxruntime
+PyPDF2
