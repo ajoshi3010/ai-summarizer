@@ -7,8 +7,7 @@ langchain_community
 langchain-google-genai
 langchain-experimental
 sentence-transformers
-faiss-cpu
-langchain-chroma
+faiss-cpu  # Using FAISS instead of ChromaDB
 langchainhub
 pypdf
 rapidocr-onnxruntime

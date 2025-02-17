@@ -13,10 +13,9 @@ from langchain.prompts import PromptTemplate
 def app2_main():
     # Load environment variables
     load_dotenv()
-
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-    summary_prompt = """You are a YouTube transcript summarizer. Summarize the following text in very detailed way, providing all essential points and explanations."""
+    summary_prompt = """You are a YouTube transcript summarizer. Summarize the following text in a very detailed way, providing all essential points and explanations."""
 
     def get_yt_transcript(youtube_video_url):
         try:
@@ -60,7 +59,7 @@ def app2_main():
     def get_conversational_chain():
         try:
             prompt_template = """
-            Answer the question as detailed as possible from the provided context. 
+            Answer the question as detailed as possible from the provided context.
             If the answer is not in the provided context, just say, "Answer not available in the context."
             Context:\n {context}?\n
             Question: \n{question}\n
@@ -89,7 +88,6 @@ def app2_main():
     # Streamlit Interface
     st.title("YouTube Transcript Summarizer & Q&A Assistant")
 
-    # Initialize session state variables
     if 'show_thumbnail' not in st.session_state:
         st.session_state.show_thumbnail = False
     if 'video_summary' not in st.session_state:
@@ -99,40 +97,33 @@ def app2_main():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
-    # URL input field
     youtube_link = st.text_input("Enter YouTube video URL:")
 
     if youtube_link:
-        # Show thumbnail and Process Video button after URL is entered
         st.session_state.show_thumbnail = True
+        video_id = youtube_link.split("=")[1]
+        st.image(f"http://img.youtube.com/vi/{video_id}/0.jpg", use_column_width=True)
 
-        if st.session_state.show_thumbnail:
-            video_id = youtube_link.split("=")[1]
-            st.image(f"http://img.youtube.com/vi/{video_id}/0.jpg", use_column_width=True)
-            if st.button("Process Video"):
-                # Process the video transcript and summary
-                transcript_text = get_yt_transcript(youtube_link)
-                if transcript_text:
-                    text_chunks = get_text_chunks(transcript_text)
-                    if text_chunks:
-                        get_vector_store(text_chunks)  # Store chunks for similarity search
-                        st.session_state.video_transcript = transcript_text
-                        st.session_state.video_summary = generate_gemini_content(transcript_text, summary_prompt)
-                        st.session_state.show_thumbnail = False  # Hide thumbnail and button after processing
+        if st.button("Process Video"):
+            transcript_text = get_yt_transcript(youtube_link)
+            if transcript_text:
+                text_chunks = get_text_chunks(transcript_text)
+                if text_chunks:
+                    get_vector_store(text_chunks)
+                    st.session_state.video_transcript = transcript_text
+                    st.session_state.video_summary = generate_gemini_content(transcript_text, summary_prompt)
+                    st.session_state.show_thumbnail = False
 
-    # Display summary and question field if the video has been processed
     if st.session_state.video_summary:
         st.markdown("## Video Summary:")
         st.write(st.session_state.video_summary)
 
-        # Section for asking questions
         st.markdown("## Ask Questions About the Video:")
         user_question = st.text_input("Ask a question about the video:")
 
         if user_question:
-            user_input(user_question)  # Call user input for Q&A and chat history logging
+            user_input(user_question)
 
-    # Display the chat history
     if st.session_state.chat_history:
         st.markdown("## Conversation History:")
         for chat in st.session_state.chat_history:
